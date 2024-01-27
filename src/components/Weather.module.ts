@@ -1,8 +1,10 @@
 import styled from "styled-components";
 
 export const WeatherDisplayWrapper = styled.div`
-  height: 100vh;
-  background: linear-gradient(to right, #c7c7eb, #ccf2dd);
+  .background {
+    height: 100vh;
+    background: linear-gradient(to right, #c7c7eb, #ccf2dd);
+  }
   .container {
     background-color: #ffffff7d;
     border-radius: 12px;
@@ -18,7 +20,6 @@ export const WeatherDisplayWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     flex-direction: column;
-    position: absolute;
   }
 
   .searchArea {
@@ -59,10 +60,10 @@ export const WeatherDisplayWrapper = styled.div`
     display: flex;
     align-items: center;
     flex-direction: column;
-    margin: 30px 0;
+    margin: 20px 0;
 
-    > .icon {
-      font-size: 9rem;
+    > .weatherIcon {
+      font-size: 3rem;
 
       /* DO LATER NOT WHEN CREATING UI */
     }
