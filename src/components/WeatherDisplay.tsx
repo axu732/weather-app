@@ -17,11 +17,25 @@ interface WeatherDisplayProps {
   name: String;
   main: {
     temp: number;
+    humidity: number;
+  };
+  sys: {
+    country: string;
+  };
+  weather: {
+    main: string;
+  }[];
+  wind: {
+    speed: number;
   };
 }
 
 const WeatherDisplay = () => {
-  const [weatherData, setWeatherData] = React.useState({} as any);
+  const apiKey = "";
+  const api_url = `https://api.openweathermap.org/data/2.5/`;
+
+  const [weatherData, setWeatherData] =
+    React.useState<WeatherDisplayProps | null>();
 
   const fetchWeatcher = async (latitude: number, longitude: number) => {
     const url = `${api_url}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
@@ -34,7 +48,7 @@ const WeatherDisplay = () => {
       const { latitude, longitude } = position.coords;
       Promise.all([fetchWeatcher(latitude, longitude)]).then(
         ([currentWeather]) => {
-          console.log(currentWeather);
+          setWeatherData(currentWeather);
         }
       );
     });
@@ -51,31 +65,35 @@ const WeatherDisplay = () => {
             </div>
           </div>
 
-          <div className="weatherArea">
-            <h1>New York City</h1>
-            <span>USA</span>
-            <div className="weatherIcon">Tingus</div>
-            <h1>18c</h1>
-            <h2>Cloudy</h2>
-          </div>
-
-          <div className="bottomInfo">
-            <div className="humidityLevel">
-              <WiHumidity className="humidityIcon" />
-              <div className="humidInfo">
-                <h1>60%</h1>
-                <p>Humidity</p>
+          {weatherData && (
+            <>
+              <div className="weatherArea">
+                <h1>{weatherData.name}</h1>
+                <span>{weatherData.sys.country}</span>
+                <div className="weatherIcon">Tingus</div>
+                <h1>{weatherData.main.temp}</h1>
+                <h2>{weatherData.weather[0].main}</h2>
               </div>
-            </div>
 
-            <div className="windSpeed">
-              <SiWindicss className="windIcon" />
-              <div className="windInfo">
-                <h1>5km/h</h1>
-                <p>Wind Speed</p>
+              <div className="bottomInfo">
+                <div className="humidityLevel">
+                  <WiHumidity className="humidityIcon" />
+                  <div className="humidInfo">
+                    <h1>{weatherData.main.humidity}%</h1>
+                    <p>Humidity</p>
+                  </div>
+                </div>
+
+                <div className="windSpeed">
+                  <SiWindicss className="windIcon" />
+                  <div className="windInfo">
+                    <h1>{weatherData.wind.speed}km/h</h1>
+                    <p>Wind Speed</p>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </div>
     </WeatherDisplayWrapper>
