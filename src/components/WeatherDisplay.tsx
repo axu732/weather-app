@@ -3,8 +3,43 @@ import { WeatherDisplayWrapper } from "./weather.module";
 import { IoSearchCircle } from "react-icons/io5";
 import { WiHumidity } from "react-icons/wi";
 import { SiWindicss } from "react-icons/si";
+import {
+  BsSunFill,
+  BsCloudyFill,
+  BsFillCloudRainFill,
+  BsCloudFog2Fill,
+} from "react-icons/bs";
+import { RiLoaderFill } from "react-icons/ri";
+import { TiWeatherPartlySunny } from "react-icons/ti";
+import axios from "axios";
+
+interface WeatherDisplayProps {
+  name: String;
+  main: {
+    temp: number;
+  };
+}
 
 const WeatherDisplay = () => {
+  const [weatherData, setWeatherData] = React.useState({} as any);
+
+  const fetchWeatcher = async (latitude: number, longitude: number) => {
+    const url = `${api_url}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
+    const response = await axios.get(url);
+    return response.data;
+  };
+
+  React.useEffect(() => {
+    navigator.geolocation.getCurrentPosition(async (position) => {
+      const { latitude, longitude } = position.coords;
+      Promise.all([fetchWeatcher(latitude, longitude)]).then(
+        ([currentWeather]) => {
+          console.log(currentWeather);
+        }
+      );
+    });
+  });
+
   return (
     <WeatherDisplayWrapper>
       <div className="background">

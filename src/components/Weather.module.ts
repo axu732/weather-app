@@ -64,8 +64,6 @@ export const WeatherDisplayWrapper = styled.div`
 
     > .weatherIcon {
       font-size: 3rem;
-
-      /* DO LATER NOT WHEN CREATING UI */
     }
 
     > h1 {
