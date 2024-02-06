@@ -66,8 +66,15 @@ const WeatherDisplay = () => {
     try {
       const currentWeatherData = await fetchWeatherByCity(searchCity);
       setWeatherData(currentWeatherData);
+      setSearchCity("");
     } catch (error) {
       console.log("No Results found");
+    }
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Enter") {
+      handleSearch();
     }
   };
 
@@ -145,6 +152,7 @@ const WeatherDisplay = () => {
               placeholder="Search for a city"
               value={searchCity}
               onChange={(e) => setSearchCity(e.target.value)}
+              onKeyDown={handleKeyPress}
             />
             <div className="searchCircle">
               <IoSearchCircle className="searchIcon" onClick={handleSearch} />
