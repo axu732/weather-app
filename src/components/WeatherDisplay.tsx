@@ -39,10 +39,36 @@ const WeatherDisplay = () => {
 
   const [isloading, setIsLoading] = React.useState(false);
 
+  const [searchCity, setSearchCity] = React.useState("");
+
   const fetchWeatcher = async (latitude: number, longitude: number) => {
     const url = `${api_url}weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric`;
     const response = await axios.get(url);
     return response.data;
+  };
+
+  const fetchWeatherByCity = async (city: string) => {
+    try {
+      const url = `${api_url}weather?q=${city}&appid=${apiKey}&units=metric`;
+      const response = await axios.get(url);
+      const searchResult: WeatherDisplayProps = response.data;
+
+      return searchResult;
+    } catch (error) {
+      alert("City not found");
+      throw error;
+    }
+  };
+
+  const handleSearch = async () => {
+    if (searchCity.trim() === "") return;
+
+    try {
+      const currentWeatherData = await fetchWeatherByCity(searchCity);
+      setWeatherData(currentWeatherData);
+    } catch (error) {
+      console.log("No Results found");
+    }
   };
 
   const iconChanger = (weather: string) => {
@@ -96,9 +122,14 @@ const WeatherDisplay = () => {
       <div className="background">
         <div className="container">
           <div className="searchArea">
-            <input type="text" placeholder="Search for a city" />
+            <input
+              type="text"
+              placeholder="Search for a city"
+              value={searchCity}
+              onChange={(e) => setSearchCity(e.target.value)}
+            />
             <div className="searchCircle">
-              <IoSearchCircle className="searchIcon" />
+              <IoSearchCircle className="searchIcon" onClick={handleSearch} />
             </div>
           </div>
 
