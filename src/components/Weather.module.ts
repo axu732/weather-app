@@ -8,7 +8,7 @@ export const WeatherDisplayWrapper = styled.div`
   .container {
     background-color: #ffffff7d;
     border-radius: 12px;
-    padding: 2rem;
+    padding: 0.5rem;
     position: absolute;
     top: 50%;
     left: 50%;

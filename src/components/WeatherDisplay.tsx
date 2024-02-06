@@ -105,17 +105,35 @@ const WeatherDisplay = () => {
   };
 
   React.useEffect(() => {
-    navigator.geolocation.getCurrentPosition(async (position) => {
+    const successCallback = async (position: GeolocationPosition) => {
       const { latitude, longitude } = position.coords;
-      Promise.all([fetchWeatcher(latitude, longitude)]).then(
-        ([currentWeather]) => {
-          setWeatherData(currentWeather);
-          setIsLoading(true);
-          console.log(currentWeather);
-        }
-      );
-    });
-  });
+      try {
+        const currentWeather = await fetchWeatcher(latitude, longitude);
+        setWeatherData(currentWeather);
+        setIsLoading(true);
+      } catch (error) {
+        console.error("Error fetching weather data:", error);
+      }
+    };
+
+    const errorCallback = async (error: GeolocationPositionError) => {
+      console.error("Error getting geolocation:", error);
+      const aucklandLatitude = -36.8485;
+      const aucklandLongitude = 174.7633;
+      try {
+        const aucklandWeather = await fetchWeatcher(
+          aucklandLatitude,
+          aucklandLongitude
+        );
+        setWeatherData(aucklandWeather);
+        setIsLoading(true);
+      } catch (error) {
+        console.error("Error fetching Auckland weather data:", error);
+      }
+    };
+
+    navigator.geolocation.getCurrentPosition(successCallback, errorCallback);
+  }, []);
 
   return (
     <WeatherDisplayWrapper>
