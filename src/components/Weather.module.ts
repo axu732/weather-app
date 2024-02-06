@@ -63,7 +63,7 @@ export const WeatherDisplayWrapper = styled.div`
     margin: 20px 0;
 
     > .weatherIcon {
-      font-size: 3rem;
+      font-size: 5rem;
     }
 
     > h1 {
@@ -129,10 +129,40 @@ export const WeatherDisplayWrapper = styled.div`
       /* DO LATER NOT WHEN CREATING UI */
       animation: spin 2s linear infinite;
     }
-    p {
+    p,
+    span {
       font-size: 22px;
       margin-top: 10px;
       font-family: "Josefin Sans", sans-serif;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .dot {
+    animation: dots 1.205s infinite;
+    position: relative;
+    top: -5px;
+  }
+
+  @keyframes dots {
+    0% {
+      opacity: 0;
+    }
+    20% {
+      opacity: 1;
+    }
+    40% {
+      opacity: 1;
+    }
+    60% {
+      opacity: 1;
+    }
+    80% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0;
     }
   }
 
